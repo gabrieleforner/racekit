@@ -3,6 +3,7 @@ module com.racekit {
     requires javafx.fxml;
 
     requires org.kordamp.ikonli.javafx;
+    requires atlantafx.base;
 
     opens com.racekit to javafx.fxml;
     exports com.racekit;

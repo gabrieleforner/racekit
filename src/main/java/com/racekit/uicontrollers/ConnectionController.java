@@ -1,6 +1,8 @@
 package com.racekit.uicontrollers;
 
+import atlantafx.base.theme.*;
 import com.racekit.core.SettingsSingleton;
+import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -24,10 +26,11 @@ public class ConnectionController {
     private TextField udpPortField;
     @FXML
     private ChoiceBox<String> gameFormatField;
+    @FXML
+    private ChoiceBox<String> appThemePicker;
 
     @FXML
     public void initialize() {
-        System.out.println("Loaded UDP Settings view ");
         if(SettingsSingleton.getInstance().getPort() != null) {
             udpPortField.setText(SettingsSingleton.getInstance().getPort().toString());
         }
@@ -38,7 +41,6 @@ public class ConnectionController {
             gameFormatField.setValue(SettingsSingleton.getInstance().getDataFormat());
         }
     }
-
     @FXML
     public void selectSettingsFile(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
@@ -54,19 +56,39 @@ public class ConnectionController {
         }
     }
     @FXML
-    public void applyConnectionSettings(ActionEvent event) {
+    public void applySettings(ActionEvent event) {
+        String host = udpAddressField.getText();
+        String portText = udpPortField.getText();
+        String format = gameFormatField.getValue();
+        String theme = appThemePicker.getValue();
+
         boolean isPortValid = false;
+
         try {
-            SettingsSingleton.getInstance().setHost(udpAddressField.getText());
-            SettingsSingleton.getInstance().setPort(Integer.parseInt(udpPortField.getText()));
-            SettingsSingleton.getInstance().setDataFormat(gameFormatField.getValue());
+            if (host != null && !host.isBlank()) { SettingsSingleton.getInstance().setHost(host.trim()); }
+            if (portText != null && !portText.isBlank()) {
+                int port = Integer.parseInt(portText.trim());
+                SettingsSingleton.getInstance().setPort(port);
+            }
+
+            if (format != null) { SettingsSingleton.getInstance().setDataFormat(format); }
+            if (theme != null) {
+                switch (theme) {
+                    case "Primer Light" -> Application.setUserAgentStylesheet(new PrimerLight().getUserAgentStylesheet());
+                    case "Primer Dark" -> Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
+                    case "Cupertino Light" -> Application.setUserAgentStylesheet(new CupertinoLight().getUserAgentStylesheet());
+                    case "Cupertino Dark" -> Application.setUserAgentStylesheet(new CupertinoDark().getUserAgentStylesheet());
+                    case "Nord Light" -> Application.setUserAgentStylesheet(new NordLight().getUserAgentStylesheet());
+                    case "Nord Dark" -> Application.setUserAgentStylesheet(new NordDark().getUserAgentStylesheet());
+                }
+            }
             isPortValid = true;
         } catch (NumberFormatException e) {
             Stage cpSubStage = new Stage();
             cpSubStage.initModality(Modality.APPLICATION_MODAL);
             cpSubStage.setTitle("RaceKit | UDP/IP Settings");
 
-            Text message = new Text("Invalid port number: "+udpPortField.getText());
+            Text message = new Text("Invalid port number: " + portText);
             VBox layout = new VBox(10, message);
             layout.setStyle("-fx-padding: 20px; -fx-alignment: center;");
 
@@ -74,8 +96,7 @@ public class ConnectionController {
             cpSubStage.setScene(scene);
             cpSubStage.showAndWait();
         }
-
-        if(isPortValid) {
+        if (isPortValid) {
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.close();
         }

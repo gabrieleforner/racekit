@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.racekit.uicontrollers.TelemetryDashboardController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <children>
+      <HBox>
+         <children>
+            <LineChart>
+              <xAxis>
+                <CategoryAxis label="Δt" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis label="RPM" side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <LineChart>
+              <xAxis>
+                <CategoryAxis label="Δt" side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis label="Gear" side="LEFT" />
+              </yAxis>
+            </LineChart>
+            <LineChart>
+              <xAxis>
+                <CategoryAxis side="BOTTOM" label="Δt" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" label="Brake pedal pressure" />
+              </yAxis>
+            </LineChart>
+         </children>
+      </HBox>
+      <HBox>
+         <children>
+            <VBox spacing="10">
+               <children>
+                   <HBox spacing="10">
+                       <Label text="VSC" textFill="#c99e00" />
+                       <Label text="SC" textFill="#c99e00" />
+                       <Label text="RF" textFill="RED" />
+                       <Label text="GF" textFill="#19a400" />
+                   </HBox>
+                  <TableView prefHeight="200.0" prefWidth="568.0">
+                    <columns>
+                      <TableColumn prefWidth="75.0" text="Pos" />
+                      <TableColumn prefWidth="75.0" text="Driver" />
+                      <TableColumn prefWidth="75.0" text="Sector 1" />
+                      <TableColumn prefWidth="75.0" text="Sector 2" />
+                      <TableColumn prefWidth="75.0" text="Sector 3" />
+                    </columns>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+
+   </children>
+</VBox>
