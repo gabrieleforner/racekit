@@ -6,7 +6,8 @@ package com.racekit.core;
  * */
 public class SettingsSingleton {
     private String host;
-    private int port;
+    private Integer port;
+    private String dataFormat;
 
     private static SettingsSingleton instance;
     private SettingsSingleton() {}
@@ -18,16 +19,24 @@ public class SettingsSingleton {
         return instance;
     }
 
+    /* Getter */
     public String getHost() {
         return host;
+    }
+    public String getDataFormat() { return this.dataFormat; }
+    public Integer getPort() {
+        return port;
+    }
+
+    /* Setter */
+    public void setPort(int port) {
+        this.port = port;
     }
     public void setHost(String host) {
         this.host = host;
     }
-    public int getPort() {
-        return port;
+    public void setDataFormat(String format) {
+        this.dataFormat = format;
     }
-    public void setPort(int port) {
-        this.port = port;
-    }
+
 }
